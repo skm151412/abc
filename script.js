@@ -8,7 +8,7 @@ document.addEventListener("DOMContentLoaded", function () {
     let quizStarted = false;
 
     // Timer setup - 30 minutes
-    let timeLeft = 30*60;  // Changed to 30 minutes to match display
+    let timeLeft = 3*60 * 60;  // Changed to 30 minutes to match display
     const timerElement = document.getElementById("timer");
 
     // Navigation buttons
@@ -25,8 +25,104 @@ document.addEventListener("DOMContentLoaded", function () {
         q1: "A", // [ML²T⁻¹]
         q2: "C", // Mass, length, and time
         q3: "A", // Power
-        // ... remaining answers unchanged
-        q100: "B", // Henry per meter
+        q4: "B", // Zero
+        q5: "B", // [ML²T⁻³]
+        q6: "A", // Joule
+        q7: "A", // Length
+        q8: "A", // m/s
+        q9: "D", // Mass, length, time, temperature, electric current
+        q10: "A", // Distance
+        q11: "A", // Density
+        q12: "C", // m³
+        q13: "A", // kg/m³
+        q14: "B", // kg
+        q15: "A", // kg m/s²
+        q16: "C", // Dimensionless
+        q17: "C", // kg m²/s²
+        q18: "C", // Watt
+        q19: "B", // radian
+        q20: "A", // Displacement / Time
+        q21: "A", // 273.15 K
+        q22: "A", // N m
+        q23: "C", // kg m/s
+        q24: "C", // kg m/s²
+        q25: "B", // No dimensions
+        q26: "A", // Energy
+        q27: "A", // Mass
+        q28: "C", // Acceleration
+        q29: "D", // kg m²/s³
+        q30: "D", // kg m²/s³
+        q31: "C", // kg m²/s²
+        q32: "A", // kg⁻¹ m⁻² s⁴ A²
+        q33: "A", // kg m²/s³ A
+        q34: "B", // Scalar
+        q35: "A", // N/A²
+        q36: "A", // kg m²/s² A
+        q37: "C", // m²
+        q38: "C", // Volt
+        q39: "A", // kg m³/s³ A
+        q40: "A", // Ampere
+        q41: "D", // Coulomb
+        q42: "A", // kg⁻¹ m⁻³ s⁴ A²
+        q43: "A", // J/kg
+        q44: "A", // [MT⁻²A⁻¹]
+        q45: "A", // N/C
+        q46: "C", // [M⁻¹L⁻²T⁴A²]
+        q47: "C", // Torque and energy
+        q48: "A", // Joule
+        q49: "D", // [ML²T⁻³]
+        q50: "C", // [ML²T⁻³A⁻¹]
+        q51: "A", // N/m²
+        q52: "A", // Torque
+        q53: "A", // [ML²T⁻²]
+        q54: "C", // Strain
+        q55: "A", // [T⁻¹]
+        q56: "A", // Ns
+        q57: "D", // Power
+        q58: "C", // Farad
+        q59: "B", // Dyne/cm²
+        q60: "C", // Density
+        q61: "C", // Joule
+        q62: "A", // Tesla
+        q63: "B", // Hertz
+        q64: "A", // Power
+        q65: "B", // Coulomb
+        q66: "B", // [ML⁻¹T⁻²]
+        q67: "D", // All of these
+        q68: "B", // [ML³T⁻³A⁻²]
+        q69: "A", // Pascal
+        q70: "A", // [T⁻¹]
+        q71: "C", // KW⁻¹
+        q72: "A", // kg·m²
+        q73: "D", // Watt
+        q74: "B", // N/m²
+        q75: "B", // J/m³
+        q76: "A", // [ML²T⁻²K⁻¹]
+        q77: "D", // Kelvin
+        q78: "A", // Ns/m²
+        q79: "C", // Work
+        q80: "B", // C·m
+        q81: "B", // Henry
+        q82: "C", // Momentum
+        q83: "D", // Kilogram
+        q84: "A", // Radian
+        q85: "B", // [M¹L⁰T⁻³K⁻⁴]
+        q86: "D", // Volt
+        q87: "D", // Both (A) and (B)
+        q88: "D", // Heat capacity
+        q89: "A", // Candela
+        q90: "A", // Weber
+        q91: "A", // J/K
+        q92: "A", // Poise
+        q93: "A", // Planck's constant
+        q94: "D", // Momentum
+        q95: "A", // J
+        q96: "B", // rad/s²
+        q97: "C", // Both (A) and (B)
+        q98: "B", // Power
+        q99: "B", // Siemens
+        q100: "B" // Henry per meter
+
     };
 
     // Create quiz prerequisites panel
@@ -47,14 +143,14 @@ document.addEventListener("DOMContentLoaded", function () {
             <button id="checkFlightModeBtn">I've Enabled Flight Mode</button>
         </div>
     `;
-    
+
     // Insert prerequisite div before the container
     document.body.insertBefore(prerequisiteDiv, quizContainer);
     quizContainer.style.display = "none";
     document.querySelector(".heading").style.display = "none";
-    
+
     // Fullscreen functionality
-    document.getElementById("fullscreenBtn").addEventListener("click", function() {
+    document.getElementById("fullscreenBtn").addEventListener("click", function () {
         if (document.documentElement.requestFullscreen) {
             document.documentElement.requestFullscreen();
         } else if (document.documentElement.mozRequestFullScreen) {
@@ -65,32 +161,32 @@ document.addEventListener("DOMContentLoaded", function () {
             document.documentElement.msRequestFullscreen();
         }
     });
-    
+
     // Check flight mode button
     document.getElementById("checkFlightModeBtn").addEventListener("click", checkFlightMode);
-    
+
     // Start quiz button
-    document.getElementById("startQuizBtn").addEventListener("click", function() {
+    document.getElementById("startQuizBtn").addEventListener("click", function () {
         prerequisiteDiv.style.display = "none";
         quizContainer.style.display = "flex";
         document.querySelector(".heading").style.display = "flex";
         quizStarted = true;
         updateTimer(); // Start the timer only when quiz starts
     });
-    
+
     // Fullscreen change detection
     document.addEventListener("fullscreenchange", updateFullscreenStatus);
     document.addEventListener("webkitfullscreenchange", updateFullscreenStatus);
     document.addEventListener("mozfullscreenchange", updateFullscreenStatus);
     document.addEventListener("MSFullscreenChange", updateFullscreenStatus);
-    
+
     // Network status detection
     window.addEventListener("online", checkQuizViolation);
-    
+
     function updateFullscreenStatus() {
-        isFullscreen = !!(document.fullscreenElement || document.webkitFullscreenElement || 
-                         document.mozFullScreenElement || document.msFullscreenElement);
-        
+        isFullscreen = !!(document.fullscreenElement || document.webkitFullscreenElement ||
+            document.mozFullScreenElement || document.msFullscreenElement);
+
         const fullscreenCheck = document.getElementById("fullscreen-check");
         if (isFullscreen) {
             fullscreenCheck.innerHTML = "✓ Quiz is in fullscreen mode";
@@ -98,19 +194,19 @@ document.addEventListener("DOMContentLoaded", function () {
         } else {
             fullscreenCheck.innerHTML = "✗ Quiz must be in fullscreen mode";
             fullscreenCheck.style.color = "red";
-            
+
             if (quizStarted) {
                 checkQuizViolation();
             }
         }
-        
+
         updateStartButton();
     }
-    
+
     function checkFlightMode() {
         const isOffline = !navigator.onLine;
         const flightmodeCheck = document.getElementById("flightmode-check");
-        
+
         if (isOffline) {
             flightmodeCheck.innerHTML = "✓ Device is in flight/airplane mode";
             flightmodeCheck.style.color = "green";
@@ -118,10 +214,10 @@ document.addEventListener("DOMContentLoaded", function () {
             flightmodeCheck.innerHTML = "✗ Device must be in flight/airplane mode";
             flightmodeCheck.style.color = "red";
         }
-        
+
         updateStartButton();
     }
-    
+
     function updateStartButton() {
         const startBtn = document.getElementById("startQuizBtn");
         if (isFullscreen && !navigator.onLine) {
@@ -130,7 +226,7 @@ document.addEventListener("DOMContentLoaded", function () {
             startBtn.disabled = true;
         }
     }
-    
+
     function checkQuizViolation() {
         if (quizStarted) {
             if (!isFullscreen || navigator.onLine) {
@@ -224,7 +320,7 @@ document.addEventListener("DOMContentLoaded", function () {
             <h3>Question Summary</h3>
             <div id="question-summary"></div>
         `;
-        
+
         // Create and append question summary
         const summaryDiv = document.getElementById("question-summary");
         for (let i = 1; i <= totalQuestions; i++) {
@@ -232,10 +328,10 @@ document.addEventListener("DOMContentLoaded", function () {
             const userAnswer = userAnswers[qKey] || "Not Attempted";
             const isCorrect = userAnswers[qKey] === correctAnswers[qKey];
             const wasAttempted = userAnswers[qKey] !== undefined;
-            
+
             let statusClass = "not-attempted";
             let statusText = "Not Attempted";
-            
+
             if (wasAttempted) {
                 if (isCorrect) {
                     statusClass = "correct";
@@ -245,7 +341,7 @@ document.addEventListener("DOMContentLoaded", function () {
                     statusText = "Incorrect";
                 }
             }
-            
+
             const questionSummary = document.createElement("div");
             questionSummary.className = `question-result ${statusClass}`;
             questionSummary.innerHTML = `
@@ -255,7 +351,7 @@ document.addEventListener("DOMContentLoaded", function () {
             `;
             summaryDiv.appendChild(questionSummary);
         }
-        
+
         // Add styles for the question summary
         const styleEl = document.createElement("style");
         styleEl.textContent = `
@@ -285,7 +381,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         `;
         document.head.appendChild(styleEl);
-        
+
         resultDiv.style.display = "block";
 
         // Disable all inputs and buttons
@@ -300,7 +396,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.querySelectorAll('.right.box .btn').forEach(btn => {
             btn.disabled = true;
         });
-        
+
         // End quiz state
         quizStarted = false;
     }
@@ -318,7 +414,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }
     });
 
-    submitBtn.addEventListener("click", function() { submitQuiz(false); });
+    submitBtn.addEventListener("click", function () { submitQuiz(false); });
 
     // Initialize the quiz - but don't start timer yet
     showQuestion(0);
