@@ -4,11 +4,11 @@ document.addEventListener("DOMContentLoaded", function () {
     const totalQuestions = questions.length;
     let currentQuestionIndex = 0;
     let userAnswers = {};
-    let isFullscreen = false;
     let quizStarted = false;
+    const quizPassword = "exam123"; // Default password for the quiz
 
     // Timer setup - 30 minutes
-    let timeLeft = 3*60 * 60;  // Changed to 30 minutes to match display
+    let timeLeft = 3 * 60 * 60;  // 3 hours in seconds
     const timerElement = document.getElementById("timer");
 
     // Navigation buttons
@@ -22,107 +22,106 @@ document.addEventListener("DOMContentLoaded", function () {
 
     // Correct answers
     const correctAnswers = {
-        q1: "A", // [ML²T⁻¹]
-        q2: "C", // Mass, length, and time
-        q3: "A", // Power
-        q4: "B", // Zero
-        q5: "B", // [ML²T⁻³]
-        q6: "A", // Joule
-        q7: "A", // Length
-        q8: "A", // m/s
-        q9: "D", // Mass, length, time, temperature, electric current
-        q10: "A", // Distance
-        q11: "A", // Density
-        q12: "C", // m³
-        q13: "A", // kg/m³
-        q14: "B", // kg
-        q15: "A", // kg m/s²
-        q16: "C", // Dimensionless
-        q17: "C", // kg m²/s²
-        q18: "C", // Watt
-        q19: "B", // radian
-        q20: "A", // Displacement / Time
-        q21: "A", // 273.15 K
-        q22: "A", // N m
-        q23: "C", // kg m/s
-        q24: "C", // kg m/s²
-        q25: "B", // No dimensions
-        q26: "A", // Energy
-        q27: "A", // Mass
-        q28: "C", // Acceleration
-        q29: "D", // kg m²/s³
-        q30: "D", // kg m²/s³
-        q31: "C", // kg m²/s²
-        q32: "A", // kg⁻¹ m⁻² s⁴ A²
-        q33: "A", // kg m²/s³ A
-        q34: "B", // Scalar
-        q35: "A", // N/A²
-        q36: "A", // kg m²/s² A
-        q37: "C", // m²
-        q38: "C", // Volt
-        q39: "A", // kg m³/s³ A
-        q40: "A", // Ampere
-        q41: "D", // Coulomb
-        q42: "A", // kg⁻¹ m⁻³ s⁴ A²
-        q43: "A", // J/kg
-        q44: "A", // [MT⁻²A⁻¹]
-        q45: "A", // N/C
-        q46: "C", // [M⁻¹L⁻²T⁴A²]
-        q47: "C", // Torque and energy
-        q48: "A", // Joule
-        q49: "D", // [ML²T⁻³]
-        q50: "C", // [ML²T⁻³A⁻¹]
-        q51: "A", // N/m²
-        q52: "A", // Torque
-        q53: "A", // [ML²T⁻²]
-        q54: "C", // Strain
-        q55: "A", // [T⁻¹]
-        q56: "A", // Ns
-        q57: "D", // Power
-        q58: "C", // Farad
-        q59: "B", // Dyne/cm²
-        q60: "C", // Density
-        q61: "C", // Joule
-        q62: "A", // Tesla
-        q63: "B", // Hertz
-        q64: "A", // Power
-        q65: "B", // Coulomb
-        q66: "B", // [ML⁻¹T⁻²]
-        q67: "D", // All of these
-        q68: "B", // [ML³T⁻³A⁻²]
-        q69: "A", // Pascal
-        q70: "A", // [T⁻¹]
-        q71: "C", // KW⁻¹
-        q72: "A", // kg·m²
-        q73: "D", // Watt
-        q74: "B", // N/m²
-        q75: "B", // J/m³
-        q76: "A", // [ML²T⁻²K⁻¹]
-        q77: "D", // Kelvin
-        q78: "A", // Ns/m²
-        q79: "C", // Work
-        q80: "B", // C·m
-        q81: "B", // Henry
-        q82: "C", // Momentum
-        q83: "D", // Kilogram
-        q84: "A", // Radian
-        q85: "B", // [M¹L⁰T⁻³K⁻⁴]
-        q86: "D", // Volt
-        q87: "D", // Both (A) and (B)
-        q88: "D", // Heat capacity
-        q89: "A", // Candela
-        q90: "A", // Weber
-        q91: "A", // J/K
-        q92: "A", // Poise
-        q93: "A", // Planck's constant
-        q94: "D", // Momentum
-        q95: "A", // J
-        q96: "B", // rad/s²
-        q97: "C", // Both (A) and (B)
-        q98: "B", // Power
-        q99: "B", // Siemens
-        q100: "B" // Henry per meter
-
+        q1: "D", // 4.0 g of hydrogen
+        q2: "C", // C₂H₄O₃
+        q3: "A", // 17.8 M
+        q4: "D", // 7:32
+        q5: "C", // 18 mg
+        q6: "A", // 2.05 M
+        q7: "D", // 1:1:1
+        q8: "D", // CO₂ = 300 mL: CO = 400 mL
+        q9: "C", // 500 K
+        q10: "D", // 2.79 m
+        q11: "A", // 100 mL of 0.2 N HCl
+        q12: "B", // 4.96 g
+        q13: "C", // 14 M
+        q14: "B", // MCl₄
+        q15: "A", // 0.57 M
+        q16: "A", // 0.086
+        q17: "D", // 5.71%, 42.86%
+        q18: "B", // 0.24 g
+        q19: "D", // 14.0%
+        q20: "C", // Pr
+        q21: "B", // 18.1 g
+        q22: "B", // 44% C, 7% H
+        q23: "D", // Temperatures below 0°C are possible in Celsius scale, but in Kelvin scale negative temperature is not possible
+        q24: "A", // 40 mL
+        q25: "A", // 960 g
+        q26: "A", // CH₂O
+        q27: "A", // CH₂O
+        q28: "C", // C₄H₈
+        q29: "A", // H₂
+        q30: "B", // 2
+        q31: "A", // 3.011 × 10²³
+        q32: "A", // 1 g of H₂
+        q33: "A", // 3 × 17 × Avogadro’s number
+        q34: "A", // 90
+        q35: "B", // A = B
+        q36: "A", // 3
+        q37: "B", // <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>1</mn><mn>8</mn></mfrac></mrow><annotation encoding="application/x-tex">\frac{1}{8}</annotation></semantics></math>
+        q38: "D", // 1
+        q39: "A", // 6
+        q40: "B", // 45
+        q41: "B", // 1
+        q42: "B", // 12
+        q43: "B", // <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo>=</mo><msup><mi>y</mi><mfrac><mn>1</mn><mrow><mi>log</mi><mo>⁡</mo><mn>5</mn></mrow></mfrac></msup></mrow><annotation encoding="application/x-tex">x = y^{\frac{1}{\log 5}}</annotation></semantics></math>
+        q44: "C", // <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mrow><mi>log</mi><mo>⁡</mo></mrow><mn>2</mn></msub><mn>11</mn></mrow><annotation encoding="application/x-tex">\log_2 11</annotation></semantics></math>
+        q45: "B", // 1
+        q46: "B", // 1
+        q47: "C", // 8
+        q48: "A", // <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">(</mo><mn>2</mn><mo separator="true">,</mo><mi mathvariant="normal">∞</mi><mo stretchy="false">)</mo></mrow><annotation encoding="application/x-tex">(2, \infty)</annotation></semantics></math>
+        q49: "D", // 4
+        q50: "B", // <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mfrac><mn>2</mn><mrow><mn>2</mn><mo>−</mo><msub><mrow><mi>log</mi><mo>⁡</mo></mrow><mn>2</mn></msub><mn>3</mn></mrow></mfrac></mrow><annotation encoding="application/x-tex">\frac{2}{2 - \log_2 3}</annotation></semantics></math>
+        q51: "A", // 8
+        q52: "B", // 9
+        q53: "B", // 18
+        q54: "B", // 13
+        q55: "C", // 4
+        q56: "B", // 3
+        q57: "C", // 2
+        q58: "B", // 1
+        q59: "C", // 2
+        q60: "C", // 2
+        q61: "C", // 2
+        q62: "A", // -6
+        q63: "B", // 9
+        q64: "C", // 2
+        q65: "C", // 5
+        q66: "B", // 2
+        q67: "A", // <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><msup><mi mathvariant="normal">L</mi><mn>2</mn></msup><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[\mathrm{L}^2]</annotation></semantics></math>
+        q68: "B", // <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msub><mi>T</mi><mn>2</mn></msub><mo>=</mo><mfrac><mi>n</mi><mi>m</mi></mfrac><msub><mi>T</mi><mn>1</mn></msub></mrow><annotation encoding="application/x-tex">T_2 = \frac{n}{m} T_1</annotation></semantics></math>
+        q69: "B", // <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mn>1.45</mn><mo>×</mo><mn>1</mn><msup><mn>0</mn><mn>9</mn></msup><mi mathvariant="normal">m</mi></mrow><annotation encoding="application/x-tex">1.45 \times 10^9 \mathrm{m}</annotation></semantics></math>
+        q70: "A", // Ohm
+        q71: "A", // 64
+        q72: "C", // <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msup><mi mathvariant="normal">m</mi><mn>2</mn></msup><msup><mi mathvariant="normal">A</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><msup><mi mathvariant="normal">s</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup></mrow><annotation encoding="application/x-tex">\mathrm{m^2 A^{-1} s^{-1}}</annotation></semantics></math>
+        q73: "D", // All of the above
+        q74: "A", // A-I, B-III, C-II, D-IV
+        q75: "A", // A-III, B-I, C-II, D-IV
+        q76: "A", // <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mrow><mi mathvariant="normal">k</mi><mi mathvariant="normal">g</mi><mi mathvariant="normal">m</mi><msup><mi mathvariant="normal">s</mi><mrow><mo>−</mo><mn>2</mn></mrow></msup></mrow><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[\mathrm{kg m s^{-2}}]</annotation></semantics></math>
+        q77: "A", // <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mi mathvariant="normal">S</mi><mo stretchy="false">]</mo><mo>=</mo><mo stretchy="false">[</mo><mrow><mi mathvariant="normal">M</mi><msup><mi mathvariant="normal">T</mi><mrow><mo>−</mo><mn>2</mn></mrow></msup></mrow><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[\mathrm{S}] = [\mathrm{M T^{-2}}]</annotation></semantics></math>
+        q78: "C", // <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mrow><mi mathvariant="normal">M</mi><msup><mi mathvariant="normal">L</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><msup><mi mathvariant="normal">T</mi><mrow><mo>−</mo><mn>2</mn></mrow></msup></mrow><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[\mathrm{M L^{-1} T^{-2}}]</annotation></semantics></math>
+        q79: "B", // <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mrow><msup><mi mathvariant="normal">M</mi><mn>0</mn></msup><msup><mi mathvariant="normal">L</mi><mn>0</mn></msup><msup><mi mathvariant="normal">T</mi><mn>0</mn></msup></mrow><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[\mathrm{M^0 L^0 T^0}]</annotation></semantics></math>
+        q80: "A", // <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mrow><msup><mi mathvariant="normal">M</mi><mn>0</mn></msup><msup><mi mathvariant="normal">L</mi><mn>2</mn></msup><msup><mi mathvariant="normal">T</mi><mn>0</mn></msup></mrow><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[\mathrm{M^0 L^2 T^0}]</annotation></semantics></math>
+        q81: "A", // <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mi>P</mi><msup><mi>A</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><mi>T</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[P A^{-1} T]</annotation></semantics></math>
+        q82: "D", // Velocity gradient and decay constant
+        q83: "A", // <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mi>P</mi><mi>V</mi><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[P V]</annotation></semantics></math>
+        q84: "D", // <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>L</mi><mi mathvariant="normal">/</mi><mi>C</mi></mrow><annotation encoding="application/x-tex">L/C</annotation></semantics></math>
+        q85: "A", // <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mrow><mi mathvariant="normal">M</mi><msup><mi mathvariant="normal">L</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><msup><mi mathvariant="normal">T</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup></mrow><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[\mathrm{M L^{-1} T^{-1}}]</annotation></semantics></math>
+        q86: "C", // <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mrow><msup><mi mathvariant="normal">M</mi><mn>0</mn></msup><msup><mi mathvariant="normal">L</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><msup><mi mathvariant="normal">T</mi><mn>0</mn></msup></mrow><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[\mathrm{M^0 L^{-1} T^0}]</annotation></semantics></math>
+        q87: "A", // <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mrow><mi mathvariant="normal">M</mi><msup><mi mathvariant="normal">L</mi><mn>2</mn></msup><msup><mi mathvariant="normal">T</mi><mrow><mo>−</mo><mn>2</mn></mrow></msup><msup><mi mathvariant="normal">A</mi><mrow><mo>−</mo><mn>2</mn></mrow></msup></mrow><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[\mathrm{M L^2 T^{-2} A^{-2}}]</annotation></semantics></math>
+        q88: "D", // Dipole moment and electric flux
+        q89: "C", // <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>J</mi><mo>=</mo><mi>ϵ</mi><mfrac><mrow><mi mathvariant="normal">∂</mi><mi>E</mi></mrow><mrow><mi mathvariant="normal">∂</mi><mi>t</mi></mrow></mfrac></mrow><annotation encoding="application/x-tex">J = \epsilon \frac{\partial E}{\partial t}</annotation></semantics></math>
+        q90: "C", // Permeability of free space
+        q91: "A", // <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mrow><mi mathvariant="normal">F</mi><msup><mi mathvariant="normal">L</mi><mrow><mo>−</mo><mn>4</mn></mrow></msup><msup><mi mathvariant="normal">T</mi><mn>2</mn></msup></mrow><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[\mathrm{F L^{-4} T^2}]</annotation></semantics></math>
+        q92: "A", // <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mrow><msup><mi mathvariant="normal">M</mi><mn>0</mn></msup><msup><mi mathvariant="normal">L</mi><mn>0</mn></msup><msup><mi mathvariant="normal">T</mi><mn>0</mn></msup></mrow><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[\mathrm{M^0 L^0 T^0}]</annotation></semantics></math>
+        q93: "A", // <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mrow><msup><mi mathvariant="normal">M</mi><mn>0</mn></msup><mi mathvariant="normal">L</mi><msup><mi mathvariant="normal">T</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup></mrow><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[\mathrm{M^0 L T^{-1}}]</annotation></semantics></math>
+        q94: "A", // <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mrow><msup><mi mathvariant="normal">M</mi><mn>0</mn></msup><msup><mi mathvariant="normal">L</mi><mn>0</mn></msup><msup><mi mathvariant="normal">T</mi><mn>0</mn></msup></mrow><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[\mathrm{M^0 L^0 T^0}]</annotation></semantics></math>
+        q95: "B", // <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mrow><msup><mi mathvariant="normal">M</mi><mn>0</mn></msup><mi mathvariant="normal">L</mi><msup><mi mathvariant="normal">T</mi><mn>0</mn></msup></mrow><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[\mathrm{M^0 L T^0}]</annotation></semantics></math>
+        q96: "A", // Same dimensions for <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mi>x</mi><mo separator="true">,</mo><mi>y</mi><mo separator="true">,</mo><mi>z</mi></mrow><annotation encoding="application/x-tex">x, y, z</annotation></semantics></math>
+        q97: "A", // <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mrow><mi mathvariant="normal">M</mi><mi mathvariant="normal">L</mi><msup><mi mathvariant="normal">T</mi><mrow><mo>−</mo><mn>3</mn></mrow></msup><msup><mi mathvariant="normal">K</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup></mrow><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[\mathrm{M L T^{-3} K^{-1}}]</annotation></semantics></math>
+        q98: "C", // <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mrow><mi mathvariant="normal">M</mi><msup><mi mathvariant="normal">L</mi><mn>0</mn></msup><msup><mi mathvariant="normal">T</mi><mrow><mo>−</mo><mn>3</mn></mrow></msup></mrow><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[\mathrm{M L^0 T^{-3}}]</annotation></semantics></math>
+        q99: "A", // <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><mo stretchy="false">[</mo><mi>P</mi><msup><mi>A</mi><mrow><mn>1</mn><mi mathvariant="normal">/</mi><mn>2</mn></mrow></msup><msup><mi>T</mi><mrow><mo>−</mo><mn>1</mn></mrow></msup><mo stretchy="false">]</mo></mrow><annotation encoding="application/x-tex">[P A^{1/2} T^{-1}]</annotation></semantics></math>
+        q100: "A", // <math xmlns="http://www.w3.org/1998/Math/MathML"><semantics><mrow><msqrt><mfrac><msub><mi>μ</mi><mn>0</mn></msub><msub><mi>ϵ</mi><mn>0</mn></msub></mfrac></msqrt></mrow><annotation encoding="application/x-tex">\sqrt{\frac{\mu_0}{\epsilon_0}}</annotation></semantics></math>
     };
 
     // Create quiz prerequisites panel
@@ -134,11 +133,14 @@ document.addEventListener("DOMContentLoaded", function () {
             <h2>Quiz Prerequisites</h2>
             <p>Before starting the quiz, please ensure:</p>
             <ul>
-                <li id="fullscreen-check">✗ Quiz must be in fullscreen mode</li>
                 <li id="flightmode-check">✗ Device must be in flight/airplane mode</li>
             </ul>
+            <div id="password-section" style="display: none;">
+                <p>Enter Quiz Password:</p>
+                <input type="password" id="quiz-password" placeholder="Enter password">
+                <p id="password-feedback" style="color: red; display: none;">Incorrect password!</p>
+            </div>
             <button id="startQuizBtn" disabled>Start Quiz</button>
-            <button id="fullscreenBtn">Enter Fullscreen</button>
             <p id="flightmode-instruction">Please enable flight/airplane mode on your device, then click below to confirm</p>
             <button id="checkFlightModeBtn">I've Enabled Flight Mode</button>
         </div>
@@ -149,59 +151,27 @@ document.addEventListener("DOMContentLoaded", function () {
     quizContainer.style.display = "none";
     document.querySelector(".heading").style.display = "none";
 
-    // Fullscreen functionality
-    document.getElementById("fullscreenBtn").addEventListener("click", function () {
-        if (document.documentElement.requestFullscreen) {
-            document.documentElement.requestFullscreen();
-        } else if (document.documentElement.mozRequestFullScreen) {
-            document.documentElement.mozRequestFullScreen();
-        } else if (document.documentElement.webkitRequestFullscreen) {
-            document.documentElement.webkitRequestFullscreen();
-        } else if (document.documentElement.msRequestFullscreen) {
-            document.documentElement.msRequestFullscreen();
-        }
-    });
-
     // Check flight mode button
     document.getElementById("checkFlightModeBtn").addEventListener("click", checkFlightMode);
 
     // Start quiz button
     document.getElementById("startQuizBtn").addEventListener("click", function () {
-        prerequisiteDiv.style.display = "none";
-        quizContainer.style.display = "flex";
-        document.querySelector(".heading").style.display = "flex";
-        quizStarted = true;
-        updateTimer(); // Start the timer only when quiz starts
+        const passwordInput = document.getElementById("quiz-password");
+        if (passwordInput.value === quizPassword) {
+            prerequisiteDiv.style.display = "none";
+            quizContainer.style.display = "flex";
+            document.querySelector(".heading").style.display = "flex";
+            quizStarted = true;
+            updateTimer(); // Start the timer only when quiz starts
+        } else {
+            const passwordFeedback = document.getElementById("password-feedback");
+            passwordFeedback.style.display = "block";
+            passwordInput.value = "";
+        }
     });
-
-    // Fullscreen change detection
-    document.addEventListener("fullscreenchange", updateFullscreenStatus);
-    document.addEventListener("webkitfullscreenchange", updateFullscreenStatus);
-    document.addEventListener("mozfullscreenchange", updateFullscreenStatus);
-    document.addEventListener("MSFullscreenChange", updateFullscreenStatus);
 
     // Network status detection
     window.addEventListener("online", checkQuizViolation);
-
-    function updateFullscreenStatus() {
-        isFullscreen = !!(document.fullscreenElement || document.webkitFullscreenElement ||
-            document.mozFullScreenElement || document.msFullscreenElement);
-
-        const fullscreenCheck = document.getElementById("fullscreen-check");
-        if (isFullscreen) {
-            fullscreenCheck.innerHTML = "✓ Quiz is in fullscreen mode";
-            fullscreenCheck.style.color = "green";
-        } else {
-            fullscreenCheck.innerHTML = "✗ Quiz must be in fullscreen mode";
-            fullscreenCheck.style.color = "red";
-
-            if (quizStarted) {
-                checkQuizViolation();
-            }
-        }
-
-        updateStartButton();
-    }
 
     function checkFlightMode() {
         const isOffline = !navigator.onLine;
@@ -210,6 +180,9 @@ document.addEventListener("DOMContentLoaded", function () {
         if (isOffline) {
             flightmodeCheck.innerHTML = "✓ Device is in flight/airplane mode";
             flightmodeCheck.style.color = "green";
+
+            // Show password section when flight mode is enabled
+            document.getElementById("password-section").style.display = "block";
         } else {
             flightmodeCheck.innerHTML = "✗ Device must be in flight/airplane mode";
             flightmodeCheck.style.color = "red";
@@ -220,16 +193,20 @@ document.addEventListener("DOMContentLoaded", function () {
 
     function updateStartButton() {
         const startBtn = document.getElementById("startQuizBtn");
-        if (isFullscreen && !navigator.onLine) {
+        const passwordSection = document.getElementById("password-section");
+
+        if (!navigator.onLine) {
+            passwordSection.style.display = "block";
             startBtn.disabled = false;
         } else {
+            passwordSection.style.display = "none";
             startBtn.disabled = true;
         }
     }
 
     function checkQuizViolation() {
         if (quizStarted) {
-            if (!isFullscreen || navigator.onLine) {
+            if (navigator.onLine) {
                 // Auto-submit quiz due to violation
                 submitQuiz(true);
             }
@@ -266,9 +243,22 @@ document.addEventListener("DOMContentLoaded", function () {
         });
 
         // Update navigation buttons
-        prevBtn.style.display = index === 0 ? "none" : "inline-block";
-        nextBtn.style.display = index === questions.length - 1 ? "none" : "inline-block";
-        submitBtn.style.display = index === questions.length - 1 ? "block" : "none";
+        if (!resultDiv.style.display || resultDiv.style.display === "none") {
+            prevBtn.style.display = index === 0 ? "none" : "inline-block";
+            nextBtn.style.display = index === questions.length - 1 ? "none" : "inline-block";
+
+            // Only show submit button on the last question
+            if (index === questions.length - 1) {
+                submitBtn.style.display = "block";
+            } else {
+                submitBtn.style.display = "none";
+            }
+        } else {
+            // After quiz submission, always show navigation
+            prevBtn.style.display = "inline-block";
+            nextBtn.style.display = "inline-block";
+            submitBtn.style.display = "none";
+        }
 
         // Update the active question button
         document.querySelectorAll('.right.box .btn').forEach((btn, i) => {
@@ -309,7 +299,7 @@ document.addEventListener("DOMContentLoaded", function () {
             }
         }
 
-        // Display result
+        // Display simplified result
         const timeExpired = timeLeft <= 0;
         resultDiv.innerHTML = `
             <h2>Quiz Results</h2>
@@ -317,88 +307,122 @@ document.addEventListener("DOMContentLoaded", function () {
             <p>Questions Answered: ${answeredCount}/${totalQuestions}</p>
             ${timeExpired ? '<p>Time Expired!</p>' : ''}
             ${violation ? '<p>Quiz rules violated! Quiz auto-submitted.</p>' : ''}
-            <h3>Question Summary</h3>
-            <div id="question-summary"></div>
+            <p>You can now navigate through the questions to see the correct answers.</p>
         `;
-
-        // Create and append question summary
-        const summaryDiv = document.getElementById("question-summary");
-        for (let i = 1; i <= totalQuestions; i++) {
-            const qKey = `q${i}`;
-            const userAnswer = userAnswers[qKey] || "Not Attempted";
-            const isCorrect = userAnswers[qKey] === correctAnswers[qKey];
-            const wasAttempted = userAnswers[qKey] !== undefined;
-
-            let statusClass = "not-attempted";
-            let statusText = "Not Attempted";
-
-            if (wasAttempted) {
-                if (isCorrect) {
-                    statusClass = "correct";
-                    statusText = "Correct";
-                } else {
-                    statusClass = "incorrect";
-                    statusText = "Incorrect";
-                }
-            }
-
-            const questionSummary = document.createElement("div");
-            questionSummary.className = `question-result ${statusClass}`;
-            questionSummary.innerHTML = `
-                <p>Question ${i}: <span class="${statusClass}">${statusText}</span></p>
-                <p>Your Answer: ${userAnswer}</p>
-                <p>Correct Answer: ${correctAnswers[qKey]}</p>
-            `;
-            summaryDiv.appendChild(questionSummary);
-        }
-
-        // Add styles for the question summary
-        const styleEl = document.createElement("style");
-        styleEl.textContent = `
-            #question-summary {
-                max-height: 400px;
-                overflow-y: auto;
-                margin-top: 20px;
-            }
-            .question-result {
-                border: 1px solid #ddd;
-                border-radius: 5px;
-                padding: 10px;
-                margin-bottom: 10px;
-                background-color: #f9f9f9;
-            }
-            .correct {
-                color: green;
-                font-weight: bold;
-            }
-            .incorrect {
-                color: red;
-                font-weight: bold;
-            }
-            .not-attempted {
-                color: orange;
-                font-weight: bold;
-            }
-        `;
-        document.head.appendChild(styleEl);
 
         resultDiv.style.display = "block";
 
-        // Disable all inputs and buttons
+        // Disable all inputs but keep navigation enabled
         document.querySelectorAll("input[type=radio]").forEach(input => {
             input.disabled = true;
         });
 
-        prevBtn.disabled = true;
-        nextBtn.disabled = true;
+        // Enable navigation buttons for review
+        prevBtn.disabled = false;
+        nextBtn.disabled = false;
         submitBtn.disabled = true;
 
-        document.querySelectorAll('.right.box .btn').forEach(btn => {
-            btn.disabled = true;
-        });
+        // Show navigation buttons for review mode
+        prevBtn.style.display = "inline-block";
+        nextBtn.style.display = "inline-block";
+        submitBtn.style.display = "none";
+
+        // Update navigation button styles to show answer status
+        updateNavigationButtonStyles();
+
+        // Show correct answers in each question
+        showCorrectAnswers();
 
         // End quiz state
         quizStarted = false;
+    }
+
+    // Show correct answers in each question
+    function showCorrectAnswers() {
+        questions.forEach((question, index) => {
+            const questionKey = `q${index + 1}`;
+            const correctAnswer = correctAnswers[questionKey];
+
+            // Create or find the correct answer display element
+            let answerDisplay = question.querySelector('.correct-answer-display');
+            if (!answerDisplay) {
+                answerDisplay = document.createElement('div');
+                answerDisplay.className = 'correct-answer-display';
+                answerDisplay.style.marginTop = '10px';
+                answerDisplay.style.padding = '10px';
+                answerDisplay.style.backgroundColor = '#e8f5e9';
+                answerDisplay.style.border = '1px solid #4CAF50';
+                answerDisplay.style.borderRadius = '5px';
+                question.appendChild(answerDisplay);
+            }
+
+            // Show the correct answer
+            answerDisplay.innerHTML = `<strong>Correct Answer:</strong> ${correctAnswer}`;
+
+            // Highlight the correct and user-selected options
+            const options = question.querySelectorAll('input[type="radio"]');
+            options.forEach(option => {
+                const optionLabel = option.parentElement;
+
+                // Reset styles
+                optionLabel.style.fontWeight = 'normal';
+
+                // Highlight correct answer
+                if (option.value === correctAnswer) {
+                    optionLabel.style.color = '#4CAF50';
+                    optionLabel.style.fontWeight = 'bold';
+                }
+
+                // Highlight user's incorrect answer if applicable
+                const userAnswer = userAnswers[questionKey];
+                if (userAnswer && userAnswer !== correctAnswer && option.value === userAnswer) {
+                    optionLabel.style.color = '#f44336';
+                    optionLabel.style.fontWeight = 'bold';
+                }
+            });
+        });
+    }
+
+    // Update navigation button styles
+    function updateNavigationButtonStyles() {
+        document.querySelectorAll('.right.box .btn').forEach((btn, i) => {
+            const qKey = `q${i + 1}`;
+            btn.disabled = false;
+
+            // Clear previous classes
+            btn.classList.remove('answered', 'correct', 'incorrect', 'not-attempted');
+
+            if (userAnswers[qKey]) {
+                if (userAnswers[qKey] === correctAnswers[qKey]) {
+                    btn.classList.add('correct');
+                } else {
+                    btn.classList.add('incorrect');
+                }
+            } else {
+                btn.classList.add('not-attempted');
+            }
+        });
+
+        // Add CSS for colored buttons
+        const styleEl = document.createElement("style");
+        styleEl.textContent = `
+            .right.box .btn.correct {
+                background-color: #4CAF50;
+                color: white;
+            }
+            .right.box .btn.incorrect {
+                background-color: #f44336;
+                color: white;
+            }
+            .right.box .btn.not-attempted {
+                background-color: #ff9800;
+                color: white;
+            }
+            .right.box .btn.active {
+                border: 3px solid #2196F3;
+            }
+        `;
+        document.head.appendChild(styleEl);
     }
 
     // Event listeners
