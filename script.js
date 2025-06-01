@@ -5,11 +5,11 @@ document.addEventListener("DOMContentLoaded", function () {
     let currentQuestionIndex = 0;
     let userAnswers = {};
     let quizStarted = false;
-    const quizPassword = "vivo123"; // Default password for the quiz
-    const authorPassword = "oppo456"; // New password for the author to show answers
+    const quizPassword = "web456"; // Default password for the quiz
+    const authorPassword = "dev123"; // New password for the author to show answers
 
     // Timer setup - 30 minutes
-    let timeLeft = 3 * 60 * 60;  // 3 hours in seconds
+    let timeLeft = 1.5 * 60 * 60;  // 3 hours in seconds
     const timerElement = document.getElementById("timer");
 
     // Navigation buttons
